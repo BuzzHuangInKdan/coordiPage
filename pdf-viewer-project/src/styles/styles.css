@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#file-input {
+  display: block;
+  margin: 20px auto;
+}
+
+#pdf-canvas {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}

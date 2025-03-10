@@ -1,0 +1,14 @@
+{
+  "name": "pdf-viewer-project",
+  "version": "1.0.0",
+  "description": "A simple PDF viewer that allows users to upload and view PDF files.",
+  "main": "src/scripts/app.js",
+  "scripts": {
+    "start": "live-server src"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^2.10.377"
+  },
+  "author": "",
+  "license": "ISC"
+}

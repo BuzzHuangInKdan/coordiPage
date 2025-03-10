@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Viewer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
+</head>
+<body>
+  <h1>PDF Viewer</h1>
+  <input type="file" id="file-input" />
+  <canvas id="pdf-canvas"></canvas>
+
+  <script>
+    document.getElementById('file-input').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file && file.type === 'application/pdf') {
+        const fileReader = new FileReader();
+        fileReader.onload = function() {
+          const typedarray = new Uint8Array(this.result);
+
+          pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+            pdf.getPage(1).then(function(page) {
+              const scale = 1.5;
+              const viewport = page.getViewport({ scale: scale });
+
+              const canvas = document.getElementById('pdf-canvas');
+              const context = canvas.getContext('2d');
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;
+
+              const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+              };
+              page.render(renderContext);
+            });
+          });
+        };
+        fileReader.readAsArrayBuffer(file);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Viewer</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    p.instructions {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    p.note {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+    }
+    /* PDF Viewer Section */
+    #pdf-container {
+      position: relative;
+      display: none; /* Hidden until PDF is uploaded */
+      margin: 0 auto 20px;
+      border: 1px solid #ccc;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    /* Canvas Styles */
+    #pdf-canvas {
+      display: block;
+    }
+    #annotation-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    /* Page Controls */
+    #page-controls {
+      text-align: center;
+      margin-bottom: 20px;
+      display: none; /* Hidden until PDF is uploaded */
+    }
+    #page-controls button {
+      background: #007bff;
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      margin: 0 5px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    #page-controls button:hover {
+      background: #0056b3;
+    }
+    #page-controls span {
+      font-size: 16px;
+      margin: 0 10px;
+    }
+    /* Annotation Labels & Delete Buttons */
+    .annotation-label,
+    .delete-button {
+      position: absolute;
+      z-index: 10;
+      font-size: 12px;
+    }
+    .annotation-label {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .delete-button {
+      background: #e74c3c;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: background 0.3s;
+    }
+    .delete-button:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <h1>PDF Viewer</h1>
+  <p class="instructions">
+    Please upload a PDF file to test coordinate calculations. Use the navigation controls to flip through pages.
+  </p>
+  <p class="note">
+    Note: This webpage is for front-end testing only; no data is stored.
+  </p>
+  <input type="file" id="file-input" accept="application/pdf" />
+  <div id="page-controls">
+    <button id="prev-page">Previous</button>
+    <span id="page-num"></span> / <span id="page-count"></span>
+    <button id="next-page">Next</button>
+  </div>
+  <div id="pdf-container">
+    <canvas id="pdf-canvas" style="position: absolute; top: 0; left: 0; z-index: 1;"></canvas>
+    <canvas id="annotation-canvas" style="position: absolute; top: 0; left: 0; z-index: 2;"></canvas>
+  </div>
+  <script src="scripts/app.js"></script>
+  <script>
+    // Show the PDF viewer and page controls when a file is selected
+    const fileInput = document.getElementById('file-input');
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files.length > 0) {
+        document.getElementById('pdf-container').style.display = 'block';
+        document.getElementById('page-controls').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
