@@ -34,6 +34,20 @@ document.addEventListener('DOMContentLoaded', function() {
           pdfDoc = pdf;
           pageCountDisplay.textContent = pdf.numPages;
           renderPage(currentPage);
+
+          // 檢查第一頁的簽章欄位
+          pdf.getPage(1).then(page => {
+            page.getAnnotations().then(annotations => {
+              annotations.forEach(annot => {
+                // 根據 PDF 規範，數位簽章欄位通常屬於 Widget annotation 且 fieldType 為 'Sig'
+                if (annot.subtype === 'Widget' && annot.fieldType === 'Sig') {
+                  console.log('找到簽章欄位:', annot);
+                  // 你可以在 annot 中嘗試尋找 /V 或其他相關屬性
+                  // 例如：annot.fieldValue 可能會包含部分簽章資訊
+                }
+              });
+            });
+          });
         });
       };
       fileReader.readAsArrayBuffer(file);

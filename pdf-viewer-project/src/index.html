@@ -8,6 +8,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
   <style>
+    /* 全站浮水印：使用偽元素與 SVG 重複背景 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* 這裡的 SVG 內容定義了浮水印文字、大小、旋轉角度 */
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><text x='0' y='150' transform='rotate(-45)' fill='rgba(0,0,0,0.1)' font-size='20' font-family='Segoe UI'>王大明1010512</text></svg>");
+      background-repeat: repeat;
+      pointer-events: none; /* 讓使用者操作不受影響 */
+      z-index: 9999;
+    }
+
     /* Global Styles */
     body {
       margin: 0;
@@ -15,6 +30,7 @@
       background: #f4f4f4;
       color: #333;
       padding: 20px;
+      position: relative;
     }
     h1 {
       text-align: center;

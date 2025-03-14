@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浮水印完整示例</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+    /* 浮水印樣式 */
+    .watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem;
+      color: rgba(0, 0, 0, 0.1); /* 調整透明度及顏色 */
+      z-index: 9999;  /* 確保浮水印位於最上層 */
+      pointer-events: none; /* 避免影響下層內容的互動 */
+      white-space: nowrap;
+    }
+    /* 主要內容區塊 */
+    .content {
+      position: relative;
+      z-index: 1;  /* 讓主要內容在浮水印上方顯示 */
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 浮水印 -->
+  <div class="watermark">浮水印文字</div>
+  
+  <!-- 主要內容 -->
+  <div class="content">
+    <h1>這是主要內容標題</h1>
+    <p>這裡放置你的主要內容。無論頁面有多少內容，浮水印都會固定顯示在中央，且不會影響用戶對內容的閱讀與操作。</p>
+  </div>
+</body>
+</html>
