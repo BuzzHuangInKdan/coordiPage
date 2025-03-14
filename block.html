@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防止截圖與視窗切換</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+
+        #content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* 黑色遮罩 */
+        #blackout {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            display: none;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #blackout p {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- 黑色遮罩，當視窗失去焦點時顯示 -->
+    <div id="blackout">
+        <h2>⚠️ 請返回視窗以繼續使用 ⚠️</h2>
+        <p>為了保護機密內容，離開視窗時畫面已被遮蔽。</p>
+    </div>
+
+    <!-- 主要內容 -->
+    <div id="content">
+        <h1>機密內容</h1>
+        <p>當你切換到其他應用程式，畫面會變黑並顯示提示。</p>
+    </div>
+
+    <script>
+        const blackout = document.getElementById("blackout");
+
+        // 當視窗失去焦點時，顯示黑色遮罩與提示字樣
+        window.addEventListener("blur", function () {
+            blackout.style.display = "flex";
+        });
+
+        // 當視窗獲得焦點時，移除黑色遮罩
+        window.addEventListener("focus", function () {
+            blackout.style.display = "none";
+        });
+
+        // 防止開發者工具檢視程式碼
+        setInterval(function () {
+            if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
+                document.body.innerHTML = "";
+                alert("請勿嘗試檢視程式碼！");
+            }
+        }, 1000);
+
+        // 偵測 Print Screen，讓畫面模糊
+        document.addEventListener("keyup", function (e) {
+            if (e.key === "PrintScreen") {
+                navigator.clipboard.writeText(""); // 清空剪貼簿
+                alert("截圖已被禁用！剪貼簿已清空");
+            }
+        });
+    </script>
+      <div id="pdf-container"></div>
+
+<script>
+  document.getElementById('pdf-container').addEventListener('click', function (event) {
+    // 取得相對於容器的 XY 座標
+    const rect = this.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    console.log(`Clicked at: X=${x}, Y=${y}`);
+
+    // 發送座標至 API
+    fetch('https://DOTTEDSIGN_OPEN_API/create_task', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ x, y }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log('API Response:', data))
+      .catch((error) => console.error('Error:', error));
+  });
+</script>
+</body>
+</html>
